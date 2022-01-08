@@ -1,0 +1,89 @@
+
+
+%% this is an example bash script used in the Assign_SLP_MD package
+
+%% note that the errors were increased by 50%
+%%  this changed the weights in the input files
+
+
+%% statistics program
+
+run('Initialization.m');
+
+z_statistics_mean_std='st6_2ndRun_calculations/1000ns/cs_point2_1000000_Z_statistics_errors_1point50.mat';
+
+Dmax=24350;
+rdc_type='N-H';
+number_media=2;
+penalty=.0;
+noe_sign=-1;
+noe_factor=2.3810;
+number_measurements=16;
+total_population=1000000;
+file_of_coordinate='st6_2ndRun_calculations/coordinate_st6.txt';
+file_of_nitrogen='st6_2ndRun_calculations/N15_shifts_exp_pred_increased_50_percent.txt';
+file_of_hydrogen='st6_2ndRun_calculations/H1_shifts_exp_pred_increased_50_percent.txt';
+file_of_rdcs=char('st6_2ndRun_calculations/rdc_exp_peg_increased_50_percent.txt','st6_2ndRun_calculations/rdc_exp_pf1_increased_50_percent.txt ');
+file_of_Pred_noe=char('st6_2ndRun_calculations/1000ns/calculated_spectra_1000ns_2ndRun.xlsx','null');
+file_of_Exp_noe=char('st6_2ndRun_calculations/noe_point2_exp_plus_auto.xlsx','null');
+
+validation="false";
+number_exp=512;
+residues_total=16;
+
+run('Statistics_z_Factors.m');
+
+
+
+%% Assign_SLP_MD program
+
+run('Initialization.m')
+
+type='N H';
+file_of_coordinate='st6_2ndRun_calculations/coordinate_st6.txt';
+file_of_nitrogen='st6_2ndRun_calculations/N15_shifts_exp_pred_increased_50_percent.txt';
+file_of_hydrogen='st6_2ndRun_calculations/H1_shifts_exp_pred_increased_50_percent.txt';
+residues=[132 155 157 171 208 216 240 274 275 290 340 356 357 371 390 398];
+
+% program execution - genetic algorithm
+
+max_fitness=2.0;
+population_size=1000;
+measurement=[1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16];
+max_generations=500;
+gen_limit=200;
+Dmax=24350;
+rdc_type='N-H';
+noe_sign=-1;
+noe_factor=2.3810;
+number_media=2;
+
+validation="false";
+number_exp=512;
+residues_total=16;
+
+% constraint_assignment(measurement,residue);
+penalty=.0;
+constraint_assignment=ones(16,16);
+
+file_of_rdcs=char('st6_2ndRun_calculations/rdc_exp_peg_increased_50_percent.txt','st6_2ndRun_calculations/rdc_exp_pf1_increased_50_percent.txt ');
+file_of_Pred_noe=char('st6_2ndRun_calculations/1000ns/calculated_spectra_1000ns_2ndRun.xlsx','null');
+file_of_Exp_noe=char('st6_2ndRun_calculations/noe_point2_exp_plus_auto.xlsx','null');
+file_of_peak='st6_2ndRun_calculations/1000ns/1217_errors_increased_50_percent_max_fit_2point0.txt';
+Peak_Assignment_File=sprintf('st6_2ndRun_calculations/1000ns/1217_errors_increased_50_percent_max_fit_2point0');
+FileNameMatlab = [Peak_Assignment_File, '.mat'];
+
+run('Assign_SLP')
+
+
+% OutputAnalsysZFactors program
+
+validation="false";
+verbose="true";
+noe_sign=-1;
+fitness_cutoff=1.869;
+z_statistics_mean_std='st6_2ndRun_calculations/1000ns/cs_point2_1000000_Z_statistics_errors_1point50.mat';
+probability_figure='st6_2ndRun_calculations/1000ns/1217_errors_increased_1point50_max_fit_1point869';
+
+run('OutputAnalysisZFactors.m');
+

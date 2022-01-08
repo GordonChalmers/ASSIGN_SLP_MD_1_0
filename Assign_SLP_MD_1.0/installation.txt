@@ -1,0 +1,24 @@
+
+Assign_SLP_MD package
+
+
+There is no installation required because these Matlab programs 
+are not compiled.
+
+The example st6Gal1 work is included in the package.  These are 
+in a different directory than the source of the files.  The directories 
+used in the bash script have to be changed to example_st6Gal1 .  
+The output is included, except for the Matlab .mat data file.  
+
+The path to Matlab programs include /src .  This has to be changed 
+in the bash script.
+
+A 1000ns trajectory was used to generate all of the calculations - 
+
+noe vectors
+chemical shifts
+coordinates and order parameters
+
+The package MD2NOE_Protein package includes the same calculations 
+which are used in the example.  MD2NOE_Protein was used to make all 
+of these predictions.
